@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+
+<body>
+  <div class="container">
+    <h2>Admin</h2>
+    <div class="create">
+      <h3>Create Quiz</h3>
+      <span>Type</span>
+      <select name="select-type" id="type">
+        <option value="1">Single Choice</option>
+        <option value="2">Multiple Choice</option>
+
+      </select>
+      <span>No. Answer</span>
+      <input type="number" min="1" id="ans-num">
+      <button class="btn-create">+</button>
+    </div>
+
+    <div class="view">
+
+    </div>
+  </div>
+
+
+  <div class="form-create">
+    <button class="btn-close">X</button>
+    <form>
+      <div class="ques-div">
+        <label for="ques">Question</label>
+        <input type="text" id="ques" placeholder="Enter question here!!">
+      </div>
+      <div class="opt-div">
+        -----
+      </div>
+      <div class="ans-div">
+        <label for="">Answer(s)</label>
+      </div>
+
+    </form>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+
+</html>

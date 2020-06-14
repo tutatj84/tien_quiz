@@ -1,0 +1,27 @@
+body {
+  margin: 0;
+  padding: 20px;
+}
+
+.container,
+
+.view {
+  display: flex;
+}
+
+.container {
+  flex-direction: column;
+}
+
+.create {
+  border: 1px solid silver;
+  width: 60%;
+  margin: auto;
+
+}
+
+/* form create */
+.form-create {
+  border: 1px solid green;
+  display: none;
+}
