@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "electron": "^6.0.0",
+    "nedb": "^1.8.0",
     "nodemon": "^2.0.4"
   }
 }

@@ -1,53 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin</title>
-  <link rel="stylesheet" href="admin.css">
-</head>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <link rel="stylesheet" href="admin.css">
+  </head>
 
-<body>
-  <div class="container">
-    <h2>Admin</h2>
-    <div class="create">
-      <h3>Create Quiz</h3>
-      <span>Type</span>
-      <select name="select-type" id="type">
-        <option value="1">Single Choice</option>
-        <option value="2">Multiple Choice</option>
+  <body>
+    <div class="container">
+      <h2>Admin</h2>
+      <div class="create-div">
+        <h3>Create Quiz</h3>
+        <span>Type</span>
+        <select name="select-type" id="type">
+          <option value="1">Single Choice</option>
+          <option value="2">Multiple Choice</option>
 
-      </select>
-      <span>No. Answer</span>
-      <input type="number" min="1" id="ans-num">
-      <button class="btn-create">+</button>
+        </select>
+        <span>No. Answer</span>
+        <input type="number" min="1" id="ans-num" required>
+        <button class="btn-create">+</button>
+        <div class="warning"></div>
+      </div>
+
+      <div class="view-div">
+        <div class="ques-div-all"><input type="text" value="question?"></div>
+        <div class="opt-div-all">
+          <input type="text" value="option 1">
+          <input type="text" value="option 2">
+          <input type="text" value="option 3">
+        </div>
+        <div class="ans-div">
+          Answer: <input type="text" value="2">
+        </div>
+
+      </div>
     </div>
 
-    <div class="view">
+    <!-- pop up form  -->
+    <div class="form-create">
+      <button class="btn-close">X</button>
+      <form id="form-create">
+        <div class="ques-div">
+          <label for="ques">Question</label>
+          <input type="text" id="ques" placeholder="Enter question here?!"
+            required>
+        </div>
+        <div class="opt-div">
+          -----
+        </div>
+        <button class="submit-create">Create!</button>
 
+      </form>
+      <div class="warning" id="create-warning"></div>
     </div>
-  </div>
 
-
-  <div class="form-create">
-    <button class="btn-close">X</button>
-    <form>
-      <div class="ques-div">
-        <label for="ques">Question</label>
-        <input type="text" id="ques" placeholder="Enter question here!!">
-      </div>
-      <div class="opt-div">
-        -----
-      </div>
-      <div class="ans-div">
-        <label for="">Answer(s)</label>
-      </div>
-
-    </form>
-  </div>
-
-  <script src="admin.js"></script>
-</body>
+    <script src="admin.js"></script>
+  </body>
 
 </html>

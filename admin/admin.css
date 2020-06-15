@@ -3,25 +3,43 @@ body {
   padding: 20px;
 }
 
-.container,
-
-.view {
+.container {
   display: flex;
+}
+
+.view-div {
+  display: flex;
+  flex-direction: column;
+  background-color: aqua;
+  padding: 10px;
+}
+
+.opt-div-all {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .container {
   flex-direction: column;
 }
 
-.create {
+.create-div {
   border: 1px solid silver;
   width: 60%;
   margin: auto;
 
+}
+.warning {
+  color: red;
 }
 
 /* form create */
 .form-create {
   border: 1px solid green;
   display: none;
+  background-color: wheat;
+  box-shadow: 0 0 20px black;
+}
+.btn-close {
+  float: right;
 }
