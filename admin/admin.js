@@ -1,5 +1,5 @@
 const {
-    ipcRenderer,
+  ipcRenderer,
 } = require('electron');
 
 class Quiz {
@@ -13,9 +13,9 @@ class Quiz {
 
 //list created question
 ipcRenderer.send('loadAllQues-mes');
-ipcRenderer.once('loadAllQues-rep', (event, questions) =>{
+ipcRenderer.once('loadAllQues-rep', (event, questions) => {
   console.log(questions);
-  
+
 })
 //event dom 
 let _lastType = null;
@@ -34,11 +34,12 @@ document.querySelector('.btn-create').addEventListener('click', e => {
 
   optionDiv.innerHTML = '';
 
-  if (!quizType.value || !ansNum.value) {               //validate
+  if (!quizType.value || !ansNum.value) { //validate
     warning.innerHTML = 'Please select all field!!';
   } else {
     warning.innerHTML = '';
     formCreate.style.display = 'block';
+    document.querySelector('.container').style.opacity = 0.3;
     _lastType = quizType.value;
 
     //continue...    
@@ -52,7 +53,7 @@ function setupCreateForm(type, num) {
     const opt = document.createElement('div');
     opt.classList.add(); //..
     const label = document.createElement('label');
-    label.innerHTML = `Option ${i}`;
+    label.innerHTML = `Option ${i}: `;
     const inputOpt = document.createElement('input');
     inputOpt.type = 'text';
     inputOpt.classList.add('input-opt');
@@ -76,6 +77,7 @@ document.querySelector('.btn-close').addEventListener('click', e => {
   //let optionDiv = document.querySelector('.opt-div');
   optionDiv.innerHTML = '';
   formCreate.style.display = 'none';
+  document.querySelector('.container').style.opacity = 1;
 })
 
 document.querySelector('.submit-create').addEventListener('click', e => {
