@@ -1,9 +1,30 @@
+/* common css */
+
+textarea, input, select {
+  border-radius: 5px;
+  border: 1px solid gray;
+  padding: 3.5px 5px;
+}
+
+textarea {
+  resize: none;
+}
+
+.btn-linear {
+  background-image: linear-gradient(to bottom, white, silver);
+}
+
+.btn-linear:hover {
+  background-image: linear-gradient(to bottom, silver, white);
+}
+
+/* main */
 body {
   margin: 0;
   padding: 20px;
   display: flex;
   flex-direction: column;
-  align-items: center
+  align-items: center;
 }
 
 .container {
@@ -11,12 +32,20 @@ body {
   flex-direction: column;
   margin: 0 auto;
 }
+.view-div-all {
+
+}
 
 .view-div {
   background-color: aqua;
   padding: 10px;
   margin-top: 12px;
-  border-radius: 5px
+  border-radius: 5px;
+  box-shadow: 0 0 3px;
+}
+
+.view-div textarea, input {
+  cursor: initial;
 }
 
 .div-index {
@@ -26,11 +55,37 @@ body {
 .btn-edit {
   float: right;
   cursor: pointer;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  border: 1px solid;
+  padding: 3px;
+}
+.btn-delete {
+  background-image: url('https://cdn2.iconfinder.com/data/icons/finance-2-25/48/68-512.png');
+  float: right;
+  background-repeat: no-repeat;
+    background-size: cover;
+    width: 20px;
+    height: 20px;
+    border: none;
+    background-color: inherit;
+    cursor: pointer;
+    margin-top: -18px;
+}
+.btn-delete:hover { 
+  animation: shake 0.2s;
+}
+@keyframes shake {
+  0% {transform: scale(1.05) rotate(0);}
+  20%{transform: scale(1.05) rotate(-8deg);}
+  40% {transform: scale(1.05) rotate(8deg);}
+  60%{transform: scale(1.05) rotate(0);}
+  80% {transform: scale(1.05) rotate(-8deg);}
+  100%{transform: scale(1.05) rotate(8deg);}
 }
 
 .ques-div-all {
   margin-top: 5px;
-
 }
 
 .opt-div-all {
@@ -48,14 +103,45 @@ body {
   border: 1px solid silver;
   /* width: 60%; */
   margin: auto;
+  padding: 10px;
+  margin-top: 30px;
+}
 
+.create-div h3 {
+  margin-top: -22px;
+  background: white;
+  width: 106px;
+  padding-left: 5px;
 }
 
 .warning {
   color: red;
 }
 
+select {
+  margin-bottom: 5px;
+}
+
+#ans-num {
+  width: 35px;
+}
+
+.btn-create {
+  border-radius: 50%;
+  border: 1px solid;
+  line-height: 24px;
+  cursor: pointer;
+  font-size: 12px;
+    color: green;
+}
+
+.btn-create:hover {
+  font-weight: bold;
+  transform: scale(1.03);
+}
+
 /* form create */
+
 .form-create {
   border: 1px solid green;
   display: none;
@@ -74,10 +160,11 @@ body {
 .btn-close {
   float: right;
   border-radius: 50%;
-  border: 1px solid;
-  padding: 5px 8px;
+  border: 1px solid red;
   cursor: pointer;
   opacity: 0.8;
+  line-height: 23px;
+  font-size: 10px;
 }
 
 .btn-close:hover {
@@ -92,11 +179,10 @@ body {
 .submit-create {
   margin-top: 10px;
   padding: 5px 10px;
-  background-image: linear-gradient(to bottom, white, silver);
   border-radius: 5px;
+  border: 0.8px solid ;
 }
 
 .submit-create:hover {
-  background-image: linear-gradient(to bottom, silver, white);
   cursor: pointer;
 }
