@@ -1,6 +1,8 @@
 /* common css */
 
-textarea, input, select {
+textarea,
+input,
+select {
   border-radius: 5px;
   border: 1px solid gray;
   padding: 3.5px 5px;
@@ -8,6 +10,7 @@ textarea, input, select {
 
 textarea {
   resize: none;
+  font-weight: bold;
 }
 
 .btn-linear {
@@ -32,9 +35,8 @@ body {
   flex-direction: column;
   margin: 0 auto;
 }
-.view-div-all {
 
-}
+.view-div-all {}
 
 .view-div {
   background-color: aqua;
@@ -44,7 +46,8 @@ body {
   box-shadow: 0 0 3px;
 }
 
-.view-div textarea, input {
+.view-div textarea,
+input {
   cursor: initial;
 }
 
@@ -60,28 +63,48 @@ body {
   border: 1px solid;
   padding: 3px;
 }
+
 .btn-delete {
   background-image: url('https://cdn2.iconfinder.com/data/icons/finance-2-25/48/68-512.png');
   float: right;
   background-repeat: no-repeat;
-    background-size: cover;
-    width: 20px;
-    height: 20px;
-    border: none;
-    background-color: inherit;
-    cursor: pointer;
-    margin-top: -18px;
+  background-size: cover;
+  width: 20px;
+  height: 20px;
+  border: none;
+  background-color: inherit;
+  cursor: pointer;
+  margin-top: -18px;
 }
-.btn-delete:hover { 
-  animation: shake 0.2s;
+
+.btn-delete:hover {
+  animation: shake 0.3s;
 }
+
 @keyframes shake {
-  0% {transform: scale(1.05) rotate(0);}
-  20%{transform: scale(1.05) rotate(-8deg);}
-  40% {transform: scale(1.05) rotate(8deg);}
-  60%{transform: scale(1.05) rotate(0);}
-  80% {transform: scale(1.05) rotate(-8deg);}
-  100%{transform: scale(1.05) rotate(8deg);}
+  0% {
+    transform: scale(1.05) rotate(0);
+  }
+
+  20% {
+    transform: scale(1.05) rotate(-8deg);
+  }
+
+  40% {
+    transform: scale(1.05) rotate(8deg);
+  }
+
+  60% {
+    transform: scale(1.05) rotate(0);
+  }
+
+  80% {
+    transform: scale(1.05) rotate(-8deg);
+  }
+
+  100% {
+    transform: scale(1.05) rotate(8deg);
+  }
 }
 
 .ques-div-all {
@@ -132,7 +155,7 @@ select {
   line-height: 24px;
   cursor: pointer;
   font-size: 12px;
-    color: green;
+  color: green;
 }
 
 .btn-create:hover {
@@ -180,7 +203,7 @@ select {
   margin-top: 10px;
   padding: 5px 10px;
   border-radius: 5px;
-  border: 0.8px solid ;
+  border: 0.8px solid;
 }
 
 .submit-create:hover {

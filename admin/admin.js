@@ -20,7 +20,7 @@ ipcRenderer.once('loadAllQues-rep', (event, quizzes) => {
   createdQuiz_div = document.querySelector('.view-div-all');
   quizzes.forEach((quiz, i) => {
     createdQuiz_div.innerHTML += `
-    <div class="view-div">
+    <div class="view-div" id="div-${i}">
       <span class="div-index">#${i}</span>
       <button class="btn-edit btn-linear" id="edit-${i}">Edit 🛠</button>
       <div class="ques-div-all"><textarea readonly cols="40" rows="3">${quiz.question}</textarea>
@@ -41,33 +41,33 @@ ipcRenderer.once('loadAllQues-rep', (event, quizzes) => {
     });
   });
   for (let i = 0; i < quizzes.length; i++) {
+    const div_i = document.querySelector(`#div-${i}`);
     let btnEdit = document.querySelector(`#edit-${i}`);
-    console.log(btnEdit);
+
     document.querySelector(`#edit-${i}`).addEventListener('click', e => {
       e.preventDefault();
-      console.log(`a`);
-      let ques = document.querySelector('textarea');
+      let ques = div_i.querySelector('textarea');
       ques.readOnly = false;
-      let opts = [...document.querySelectorAll('input')];
+      let opts = [...div_i.querySelectorAll('input')];
       opts.forEach(opt => {
         opt.readOnly = false;
       });
       ques.focus();
-  
+
       //save btn
-      const btnSave = document.createElement('button');
+      let btnSave = document.createElement('button');
       btnSave.innerText = `Save ✍`;
       btnSave.classList.add('btn-edit', 'btn-linear');
-      document.querySelector('.view-div').replaceChild(btnSave, btnEdit);
-  
+      div_i.replaceChild(btnSave, btnEdit);
+
       btnSave.addEventListener('click', () => {
         ques.readOnly = true;
         opts.forEach(opt => {
           opt.readOnly = true;
         });
-        document.querySelector('.view-div').replaceChild(btnEdit, btnSave);
+        div_i.replaceChild(btnEdit, btnSave);
       });
-  
+
       //send data to server
       // let quizEdited = new Quiz()
     });
@@ -162,5 +162,3 @@ document.querySelector('.submit-create').addEventListener('click', e => {
 // list created quiz
 //edit btn
 console.log(_quizQuantity);
-
-
