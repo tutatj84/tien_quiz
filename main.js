@@ -56,6 +56,18 @@ ipcMain.on('submit-create', (event, quiz) => {
 ipcMain.on('loadAllQues-mes', async event => {
   await db.find({}, (err, docs) => {            //? needed?
     event.reply('loadAllQues-rep', docs);
-  }); 
-  
+  });
+
+})
+ipcMain.on('edit-mes', (event, quizEdited) => {
+  db.update({ _id: quizEdited._id }, quizEdited, {}, (err, numAffected) => {
+    if (err) {
+      console.log(err);      
+    }
+    console.log(quizEdited);
+    
+    console.log(numAffected);
+    
+    event.reply('edit-rep');
+  });
 })

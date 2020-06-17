@@ -1,0 +1,7 @@
+
+click outside form create -> blur ?
+wrap created quizzes
+
+edit-> loading-> edit db-> done
+
+tach edit ra khoi ipc.on

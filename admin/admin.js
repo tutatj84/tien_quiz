@@ -7,17 +7,28 @@ class Quiz {
     this.type = type;
     this.question = question;
     this.options = options;
-    this.answers = answerIds;
+    this.answerIds = answerIds;
+  }
+}
+class QuizEdited {
+  constructor(type, question, options, answerIds, _id) {
+    this.type = type;
+    this.question = question;
+    this.options = options;
+    this.answerIds = answerIds;
+    this._id = _id;
   }
 }
 
 //* load when start 
-//list created question
+
 let _quizQuantity = 0;
 ipcRenderer.send('loadAllQues-mes');
 ipcRenderer.once('loadAllQues-rep', (event, quizzes) => {
   _quizQuantity = quizzes.length;
   createdQuiz_div = document.querySelector('.view-div-all');
+
+  //list created question
   quizzes.forEach((quiz, i) => {
     createdQuiz_div.innerHTML += `
     <div class="view-div" id="div-${i}">
@@ -26,21 +37,39 @@ ipcRenderer.once('loadAllQues-rep', (event, quizzes) => {
       <div class="ques-div-all"><textarea readonly cols="40" rows="3">${quiz.question}</textarea>
       </div>
       <div class="opt-div-all" id="opts_${i}">
-  
+
       </div>
-      <div class="ans-div">
-        Answer: <input type="text" value="2" readonly>
-      </div>
+
       <button class="btn-delete"></button>
     </div>
     `;
-    quiz.options.forEach((opt) => {
+    quiz.options.forEach((opt, j) => {
       document.querySelector(`#opts_${i}`).innerHTML += `
-      <input type="text" value="${opt}" readonly>
+      <div class = "opt-div-created" id="optCreated-${j}">
+        <input type="text" value="${opt}" readonly>
+
+      </div>
       `;
+      // tick
+      const div_i = document.querySelector(`#div-${i}`);
+      let optCreated = div_i.querySelector(`#optCreated-${j}`);
+      const ticked = document.createElement('input');
+      ticked.type = (quiz.type == 1) ? 'radio' : 'checkbox';
+      ticked.name = `ticked-${i}`;
+      ticked.value = j+1;
+      ticked.disabled = true;
+      if (quiz.answerIds.find(ans => ans == j + 1)) {
+        ticked.setAttribute('checked', 'true');
+      }
+      // console.log(ticked);
+      optCreated.appendChild(ticked);
     });
+
   });
-  for (let i = 0; i < quizzes.length; i++) {
+
+  //edit
+  quizzes.forEach((quiz, i) => {
+
     const div_i = document.querySelector(`#div-${i}`);
     let btnEdit = document.querySelector(`#edit-${i}`);
 
@@ -51,7 +80,9 @@ ipcRenderer.once('loadAllQues-rep', (event, quizzes) => {
       let opts = [...div_i.querySelectorAll('input')];
       opts.forEach(opt => {
         opt.readOnly = false;
+        opt.disabled = false;
       });
+
       ques.focus();
 
       //save btn
@@ -64,15 +95,39 @@ ipcRenderer.once('loadAllQues-rep', (event, quizzes) => {
         ques.readOnly = true;
         opts.forEach(opt => {
           opt.readOnly = true;
+          opt.disabled = true;
         });
-        div_i.replaceChild(btnEdit, btnSave);
+        //send data to server
+        let editedAnsIds = [...div_i.querySelectorAll('input:checked')]                  
+          .map((input, i)=> input.value);
+        let editedOpts = [...div_i.querySelectorAll('input[type="text"]')].map(input=>input.value);
+        
+        const quizEdited = new QuizEdited(quiz.type, ques.value, editedOpts, editedAnsIds, quiz._id); //?
+        // console.log(quizEdited);
+        
+        ipcRenderer.send('edit-mes', quizEdited);
+
+        //loading...
+        let loading = document.createElement('img')
+        loading.src = '../loading.gif';
+        div_i.replaceChild(loading, btnSave);
+        //when edit done
+        ipcRenderer.once('edit-rep', () => {
+          setTimeout(() => {
+            div_i.replaceChild(btnEdit, div_i.querySelector('img'));
+          }, 1000);
+          loading.src = '../done.png';
+          console.log('edit done!!');
+        })
+
       });
 
-      //send data to server
-      // let quizEdited = new Quiz()
     });
-  }
+
+  });
+
 });
+
 //* event dom 
 let _lastType = null;
 let _lastQues = null;
@@ -136,9 +191,7 @@ document.querySelector('.btn-close').addEventListener('click', e => {
   optionDiv.innerHTML = '';
   formCreate.style.display = 'none';
   document.querySelector('.container').style.opacity = 1;
-})
-
-
+});
 
 document.querySelector('.submit-create').addEventListener('click', e => {
   e.preventDefault();
@@ -157,8 +210,8 @@ document.querySelector('.submit-create').addEventListener('click', e => {
     ipcRenderer.send('submit-create', quiz);
 
     formCreate.style.display = 'none';
+    document.querySelector('.container').style.opacity = 1;
   }
-})
-// list created quiz
-//edit btn
-console.log(_quizQuantity);
+  location.reload();
+});
+
