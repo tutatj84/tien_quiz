@@ -69,10 +69,8 @@ ipcRenderer.once('loadAllQues-rep', (event, quizzes) => {
 
   //edit
   quizzes.forEach((quiz, i) => {
-
     const div_i = document.querySelector(`#div-${i}`);
     let btnEdit = document.querySelector(`#edit-${i}`);
-
     document.querySelector(`#edit-${i}`).addEventListener('click', e => {
       e.preventDefault();
       let ques = div_i.querySelector('textarea');
@@ -82,7 +80,6 @@ ipcRenderer.once('loadAllQues-rep', (event, quizzes) => {
         opt.readOnly = false;
         opt.disabled = false;
       });
-
       ques.focus();
 
       //save btn
@@ -102,7 +99,7 @@ ipcRenderer.once('loadAllQues-rep', (event, quizzes) => {
           .map((input, i)=> input.value);
         let editedOpts = [...div_i.querySelectorAll('input[type="text"]')].map(input=>input.value);
         
-        const quizEdited = new QuizEdited(quiz.type, ques.value, editedOpts, editedAnsIds, quiz._id); //?
+        const quizEdited = new QuizEdited(quiz.type, ques.value, editedOpts, editedAnsIds, quiz._id); 
         // console.log(quizEdited);
         
         ipcRenderer.send('edit-mes', quizEdited);
@@ -119,13 +116,9 @@ ipcRenderer.once('loadAllQues-rep', (event, quizzes) => {
           loading.src = '../done.png';
           console.log('edit done!!');
         })
-
       });
-
     });
-
   });
-
 });
 
 //* event dom 
@@ -208,7 +201,7 @@ document.querySelector('.submit-create').addEventListener('click', e => {
     const quiz = new Quiz(_lastType, _lastQues, _lastOpts, _lastAnsIds);
     console.log(quiz);
     ipcRenderer.send('submit-create', quiz);
-
+    
     formCreate.style.display = 'none';
     document.querySelector('.container').style.opacity = 1;
   }

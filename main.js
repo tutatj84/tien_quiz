@@ -14,7 +14,7 @@ function createWindow() {
     }
   });
 
-  mainWindow.loadFile('./admin/admin.html')
+  mainWindow.loadFile('./student/takeQuiz.html')
 }
 
 app.whenReady()
@@ -41,6 +41,13 @@ db = new Datastore('./database/quiz.db');
 db.loadDatabase(err => {
   if (err) { console.log(err) }
 });
+
+//all quiz
+let allQuiz = [];
+db.find({}, (err, docs) => {
+  allQuiz = docs;
+});
+
 ipcMain.on('submit-create', (event, quiz) => {
   console.log('db');
 
@@ -53,21 +60,39 @@ ipcMain.on('submit-create', (event, quiz) => {
   // event.reply('create-reply')
 })
 
-ipcMain.on('loadAllQues-mes', async event => {
-  await db.find({}, (err, docs) => {            //? needed?
-    event.reply('loadAllQues-rep', docs);
-  });
-
+ipcMain.on('loadAllQues-mes', event => {
+  event.reply('loadAllQues-rep', allQuiz);
 })
+
 ipcMain.on('edit-mes', (event, quizEdited) => {
   db.update({ _id: quizEdited._id }, quizEdited, {}, (err, numAffected) => {
     if (err) {
-      console.log(err);      
+      console.log(err);
     }
     console.log(quizEdited);
-    
+
     console.log(numAffected);
-    
+
     event.reply('edit-rep');
   });
+})
+
+//student
+class QuizNoAns {
+  constructor(type, question, options, _id) {
+    this.type = type;
+    this.question = question;
+    this.options = options;
+    this._id = _id;
+  }
+}
+ipcMain.on('takeQuiz-mes', (event) => {
+
+  console.log(allQuiz[0]);
+
+  const quizzesNoAns = allQuiz.map(quiz => {    
+    return new QuizNoAns(quiz.type, quiz.question, quiz.options, quiz._id)
+  });
+  console.log(quizzesNoAns);
+  event.reply('takeQuiz-rep', quizzesNoAns);
 })
