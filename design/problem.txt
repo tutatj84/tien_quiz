@@ -1,7 +1,7 @@
 
 click outside form create -> blur ?
 wrap created quizzes
+callback hell
+shuffle from server->..
 
-edit-> loading-> edit db-> done
 
-tach edit ra khoi ipc.on

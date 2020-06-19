@@ -42,12 +42,6 @@ db.loadDatabase(err => {
   if (err) { console.log(err) }
 });
 
-//all quiz
-let allQuiz = [];
-db.find({}, (err, docs) => {
-  allQuiz = docs;
-});
-
 ipcMain.on('submit-create', (event, quiz) => {
   console.log('db');
 
@@ -61,7 +55,10 @@ ipcMain.on('submit-create', (event, quiz) => {
 })
 
 ipcMain.on('loadAllQues-mes', event => {
-  event.reply('loadAllQues-rep', allQuiz);
+  db.find({}, (err, docs) => {
+    event.reply('loadAllQues-rep', docs);
+  })
+
 })
 
 ipcMain.on('edit-mes', (event, quizEdited) => {
@@ -86,13 +83,27 @@ class QuizNoAns {
     this._id = _id;
   }
 }
+
 ipcMain.on('takeQuiz-mes', (event) => {
-
-  console.log(allQuiz[0]);
-
-  const quizzesNoAns = allQuiz.map(quiz => {    
-    return new QuizNoAns(quiz.type, quiz.question, quiz.options, quiz._id)
+  db.find({}, (err, docs) => {
+    const quizzesNoAns = docs.map(quiz => {
+      return new QuizNoAns(quiz.type, quiz.question, quiz.options, quiz._id)
+    });
+    event.reply('takeQuiz-rep', quizzesNoAns);
   });
-  console.log(quizzesNoAns);
-  event.reply('takeQuiz-rep', quizzesNoAns);
+});
+
+ipcMain.on('submit-test', async (event, studentQuizzes) => {
+  let mark =0;
+  db.find({}, (err, docs) => {
+    allQuiz = docs;
+    // studentQuizzes.forEach(stQuiz => {
+    //   allQuiz. 
+    // });
+    console.log(allQuiz[1]);
+    console.log(studentQuizzes[1]);
+    
+    
+    //event.reply('submit-done');
+  })
 })
