@@ -6,12 +6,12 @@ function shuffle(array) {
   array.sort(() => Math.random() - 0.5);
 }
 
-let timer = 0.1 * 60; // 6m30s
+let timer = 1 * 60; // 6m30s
 //* load when start
 window.onload = async () => { //!
   await ipcRenderer.send('takeQuiz-mes');
   await ipcRenderer.on('takeQuiz-rep', (event, quizzes) => {
-    shuffle(quizzes);
+    //shuffle(quizzes);
 
     let _previousBtn = null;
     let _previousQuiz = null;
@@ -96,23 +96,29 @@ window.onload = async () => { //!
         console.log(btnQuiz);
       }
     });
+    //timer
+    let _myTimer;
+    _myTimer = timeCounter(document.querySelector('#time-left'));
+
     //* submit 
     const btnSubmit = document.querySelector('#btn-submit');
     btnSubmit.addEventListener('click', e => {
       e.preventDefault();
+      clearInterval(_myTimer);
+
       //save last quiz
       _previousQuiz.choiceIds = [...document.querySelectorAll('input:checked')].map(input => input.value);
 
       //
       ipcRenderer.send('submit-test', quizzes);
-      ipcRenderer.on();
+      ipcRenderer.on('submit-done', (event,mark) =>{
+        console.log('Mark is:' + Number(mark));
+      })
     })
   });
-  //timer
-  timeCounter(document.querySelector('#time-left'));
 
-}
-
+} 
+  
 // function to call
 function timeCounter(display) {
   //let timer;
@@ -130,4 +136,5 @@ function timeCounter(display) {
       clearInterval(myTimer);
     }
   }, 1000);
+  return myTimer;
 }

@@ -14,7 +14,7 @@ function createWindow() {
     }
   });
 
-  mainWindow.loadFile('./student/takeQuiz.html')
+  mainWindow.loadFile('./admin/admin.html')
 }
 
 app.whenReady()
@@ -55,10 +55,11 @@ ipcMain.on('submit-create', (event, quiz) => {
 })
 
 ipcMain.on('loadAllQues-mes', event => {
-  db.find({}, (err, docs) => {
-    event.reply('loadAllQues-rep', docs);
-  })
-
+  db.find({})
+    .sort({ time: 1 })
+    .exec((err, docs) => {
+      event.reply('loadAllQues-rep', docs);
+    })
 })
 
 ipcMain.on('edit-mes', (event, quizEdited) => {
@@ -81,6 +82,7 @@ class QuizNoAns {
     this.question = question;
     this.options = options;
     this._id = _id;
+    this.choiceIds = [];
   }
 }
 
@@ -92,18 +94,25 @@ ipcMain.on('takeQuiz-mes', (event) => {
     event.reply('takeQuiz-rep', quizzesNoAns);
   });
 });
-
+const MARK_PER_QUIZ = 1;
 ipcMain.on('submit-test', async (event, studentQuizzes) => {
-  let mark =0;
-  db.find({}, (err, docs) => {
-    allQuiz = docs;
-    // studentQuizzes.forEach(stQuiz => {
-    //   allQuiz. 
-    // });
-    console.log(allQuiz[1]);
-    console.log(studentQuizzes[1]);
-    
-    
-    //event.reply('submit-done');
+  let mark = 0;
+  db.find({}, (err, allQuiz) => {
+    studentQuizzes.forEach(stQuiz => {
+      const quizAdSameId = allQuiz.find(quizAd => quizAd._id === stQuiz._id);
+      const correct_quantity = quizAdSameId.answerIds.length;
+      const mark_per_ans = MARK_PER_QUIZ / correct_quantity;
+
+      stQuiz.choiceIds.forEach(choice => {
+        const correct_ans = quizAdSameId.answerIds.find(ans => ans === choice);
+        if (correct_ans) {
+          mark += mark_per_ans;
+        }
+      })
+    })
+
+    console.log('Mark:' + mark);
+
+    event.reply('submit-done', mark);
   })
 })

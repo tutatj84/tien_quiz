@@ -4,6 +4,7 @@ const {
 
 class Quiz {
   constructor(type, question, options, answerIds) {
+    this.time =Date.now();
     this.type = type;
     this.question = question;
     this.options = options;
@@ -129,6 +130,7 @@ let _lastAnsIds = null;
 
 let optionDiv = document.querySelector('.opt-div');
 let formCreate = document.querySelector('.form-create');
+let formBg = document.querySelector('.form-bg');
 //create div
 document.querySelector('.btn-create').addEventListener('click', e => {
   e.preventDefault();
@@ -143,7 +145,7 @@ document.querySelector('.btn-create').addEventListener('click', e => {
     warning.innerHTML = 'Please select all field!!';
   } else {
     warning.innerHTML = '';
-    formCreate.style.display = 'block';
+    formBg.style.display = 'block';
     document.querySelector('.container').style.opacity = 0.3;
     _lastType = quizType.value;
 
@@ -179,10 +181,10 @@ function setupCreateForm(type, num) {
 
 // form create 
 document.querySelector('.btn-close').addEventListener('click', e => {
-  e.preventDefault();
+   e.preventDefault();
   //let optionDiv = document.querySelector('.opt-div');
   optionDiv.innerHTML = '';
-  formCreate.style.display = 'none';
+  formBg.style.display = 'none';
   document.querySelector('.container').style.opacity = 1;
 });
 
@@ -195,16 +197,24 @@ document.querySelector('.submit-create').addEventListener('click', e => {
   _lastAnsIds = [...ticks].map(input => input.value);
 
   const warning = document.querySelector('#create-warning');
-  if (!_lastType || !_lastQues || !_lastOpts[0] || !_lastAnsIds) { //validate
+  if (!_lastType || !_lastQues || !_lastOpts.length || !ticks.length
+     || !_lastAnsIds || isInputArrayEmpty(_lastOpts)) { //validate
     warning.innerHTML = 'Please fill all fields!!';
   } else {
     const quiz = new Quiz(_lastType, _lastQues, _lastOpts, _lastAnsIds);
     console.log(quiz);
     ipcRenderer.send('submit-create', quiz);
     
-    formCreate.style.display = 'none';
+    formBg.style.display = 'none';
     document.querySelector('.container').style.opacity = 1;
+    location.reload();
   }
-  location.reload();
+  
 });
+
+function isInputArrayEmpty (inputs) {
+  inputs.forEach(input=>{
+    if(!input.value) return false; 
+  })
+}
 

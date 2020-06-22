@@ -19,7 +19,7 @@ body {
   align-items: center;
   background-image: linear-gradient(45deg, black, transparent);
   background-color: lightgoldenrodyellow;
-  /* background-repeat: no-repeat; */
+  background-repeat: no-repeat;
 }
 
 .container {
@@ -161,13 +161,15 @@ select {
 
 .form-create {
   border: 1px solid green;
-  display: none;
+  /* display: none; */
   background-color: wheat;
   box-shadow: 0 0 20px black;
-  position: fixed;
+  position: relative;
   top: 35%;
   padding: 15px;
   border-radius: 8px;
+  margin: auto;
+  width: 25rem;
 }
 
 .form-create label {
@@ -202,4 +204,11 @@ select {
 
 .submit-create:hover {
   cursor: pointer;
+}
+
+.form-bg {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  display: none;
 }
