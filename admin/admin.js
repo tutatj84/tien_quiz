@@ -2,15 +2,6 @@ const {
   ipcRenderer,
 } = require('electron');
 
-class Quiz {
-  constructor(type, question, options, answerIds) {
-    this.time =Date.now();
-    this.type = type;
-    this.question = question;
-    this.options = options;
-    this.answerIds = answerIds;
-  }
-}
 class QuizEdited {
   constructor(type, question, options, answerIds, _id) {
     this.type = type;
@@ -57,7 +48,7 @@ ipcRenderer.once('loadAllQues-rep', (event, quizzes) => {
       const ticked = document.createElement('input');
       ticked.type = (quiz.type == 1) ? 'radio' : 'checkbox';
       ticked.name = `ticked-${i}`;
-      ticked.value = j+1;
+      ticked.value = j + 1;
       ticked.disabled = true;
       if (quiz.answerIds.find(ans => ans == j + 1)) {
         ticked.setAttribute('checked', 'true');
@@ -96,13 +87,13 @@ ipcRenderer.once('loadAllQues-rep', (event, quizzes) => {
           opt.disabled = true;
         });
         //send data to server
-        let editedAnsIds = [...div_i.querySelectorAll('input:checked')]                  
-          .map((input, i)=> input.value);
-        let editedOpts = [...div_i.querySelectorAll('input[type="text"]')].map(input=>input.value);
-        
-        const quizEdited = new QuizEdited(quiz.type, ques.value, editedOpts, editedAnsIds, quiz._id); 
+        let editedAnsIds = [...div_i.querySelectorAll('input:checked')]
+          .map((input, i) => input.value);
+        let editedOpts = [...div_i.querySelectorAll('input[type="text"]')].map(input => input.value);
+
+        const quizEdited = new QuizEdited(quiz.type, ques.value, editedOpts, editedAnsIds, quiz._id);
         // console.log(quizEdited);
-        
+
         ipcRenderer.send('edit-mes', quizEdited);
 
         //loading...
@@ -123,98 +114,18 @@ ipcRenderer.once('loadAllQues-rep', (event, quizzes) => {
 });
 
 //* event dom 
-let _lastType = null;
-let _lastQues = null;
-let _lastOpts = null;
-let _lastAnsIds = null;
-
-let optionDiv = document.querySelector('.opt-div');
-let formCreate = document.querySelector('.form-create');
-let formBg = document.querySelector('.form-bg');
 //create div
 document.querySelector('.btn-create').addEventListener('click', e => {
   e.preventDefault();
   const quizType = document.querySelector('#type');
   const ansNum = document.querySelector('#ans-num');
-  const createDiv = document.querySelector('create-div');
   const warning = document.querySelector('.warning');
-
-  optionDiv.innerHTML = '';
 
   if (!quizType.value || !ansNum.value) { //validate
     warning.innerHTML = 'Please select all field!!';
   } else {
-    warning.innerHTML = '';
-    formBg.style.display = 'block';
-    document.querySelector('.container').style.opacity = 0.3;
-    _lastType = quizType.value;
-
-    setupCreateForm(quizType.value, ansNum.value);
-
+    ipcRenderer.send('add-window',quizType.value, ansNum.value) 
   }
 
 });
-
-function setupCreateForm(type, num) {
-  for (let i = 1; i <= num; i++) {
-    const opt = document.createElement('div');
-    opt.classList.add(); //..
-    const label = document.createElement('label');
-    label.innerHTML = `Option ${i}: `;
-    const inputOpt = document.createElement('input');
-    inputOpt.type = 'text';
-    inputOpt.classList.add('input-opt');
-    inputOpt.required = true;
-    inputOpt.name = 'opt';
-    inputOpt.placeholder = `Enter Option ${i}...`;
-    const tick = document.createElement('input');
-    tick.type = (type == 1) ? 'radio' : 'checkbox';
-    tick.name = 'tick';
-    tick.value = i;
-
-    opt.appendChild(label);
-    opt.appendChild(inputOpt);
-    opt.appendChild(tick);
-    optionDiv.appendChild(opt);
-  }
-}
-
-// form create 
-document.querySelector('.btn-close').addEventListener('click', e => {
-   e.preventDefault();
-  //let optionDiv = document.querySelector('.opt-div');
-  optionDiv.innerHTML = '';
-  formBg.style.display = 'none';
-  document.querySelector('.container').style.opacity = 1;
-});
-
-document.querySelector('.submit-create').addEventListener('click', e => {
-  e.preventDefault();
-  _lastQues = document.querySelector('#ques').value;
-  const inputOpts = document.querySelectorAll('.input-opt');
-  _lastOpts = Array.from(inputOpts).map(input => input.value);
-  const ticks = document.querySelectorAll('input[name="tick"]:checked');
-  _lastAnsIds = [...ticks].map(input => input.value);
-
-  const warning = document.querySelector('#create-warning');
-  if (!_lastType || !_lastQues || !_lastOpts.length || !ticks.length
-     || !_lastAnsIds || isInputArrayEmpty(_lastOpts)) { //validate
-    warning.innerHTML = 'Please fill all fields!!';
-  } else {
-    const quiz = new Quiz(_lastType, _lastQues, _lastOpts, _lastAnsIds);
-    console.log(quiz);
-    ipcRenderer.send('submit-create', quiz);
-    
-    formBg.style.display = 'none';
-    document.querySelector('.container').style.opacity = 1;
-    location.reload();
-  }
-  
-});
-
-function isInputArrayEmpty (inputs) {
-  inputs.forEach(input=>{
-    if(!input.value) return false; 
-  })
-}
 

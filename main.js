@@ -7,14 +7,18 @@ const {
 const path = require('path');
 let Datastore = require('nedb');
 
+let mainWindow = null;
+
 function createWindow() {
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     webPreferences: {
       nodeIntegration: true,
     }
   });
 
   mainWindow.loadFile('./admin/admin.html')
+
+
 }
 
 app.whenReady()
@@ -42,18 +46,6 @@ db.loadDatabase(err => {
   if (err) { console.log(err) }
 });
 
-ipcMain.on('submit-create', (event, quiz) => {
-  console.log('db');
-
-  db.insert(quiz, err => {
-    if (err) console.log(err);
-  });
-  dialog.showMessageBox({
-    message: 'Add successfully!!!',
-  });
-  // event.reply('create-reply')
-})
-
 ipcMain.on('loadAllQues-mes', event => {
   db.find({})
     .sort({ time: 1 })
@@ -67,12 +59,45 @@ ipcMain.on('edit-mes', (event, quizEdited) => {
     if (err) {
       console.log(err);
     }
-    console.log(quizEdited);
-
-    console.log(numAffected);
-
     event.reply('edit-rep');
   });
+})
+
+//admin - add quiz
+ipcMain.on('add-window', (event, quizType, ansNum) => {
+
+  // open window as modal
+  const child = new BrowserWindow({
+    parent: mainWindow,
+    modal: true,
+    webPreferences: {
+      nodeIntegration: true,
+    }
+  });
+  child.loadFile('./admin/add.html')
+  child.setSize(450, 300)
+  child.setResizable(false)
+  child.setMenu(null)
+  child.center();
+  child.show();
+
+  ipcMain.on('get-parent-info', event=>{
+    event.reply('get-parent-info-rep', quizType, ansNum);
+  })
+  
+})
+
+
+ipcMain.on('submit-create', (event, quiz) => {
+  console.log('db');
+
+  db.insert(quiz, err => {
+    if (err) console.log(err);
+  });
+  dialog.showMessageBox({
+    message: 'Add successfully!!!',
+  });
+  // event.reply('create-reply')
 })
 
 //student
@@ -100,13 +125,13 @@ ipcMain.on('submit-test', async (event, studentQuizzes) => {
   db.find({}, (err, allQuiz) => {
     studentQuizzes.forEach(stQuiz => {
       const quizAdSameId = allQuiz.find(quizAd => quizAd._id === stQuiz._id);
-      const correct_quantity = quizAdSameId.answerIds.length;
-      const mark_per_ans = MARK_PER_QUIZ / correct_quantity;
+      const correctQuantity = quizAdSameId.answerIds.length;
+      const markPerAns = MARK_PER_QUIZ / correctQuantity;
 
       stQuiz.choiceIds.forEach(choice => {
         const correct_ans = quizAdSameId.answerIds.find(ans => ans === choice);
         if (correct_ans) {
-          mark += mark_per_ans;
+          mark += markPerAns;
         }
       })
     })

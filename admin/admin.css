@@ -1,7 +1,6 @@
 /* common css */
 
 
-
 img {
   width: 20px;
   float: right;
@@ -17,9 +16,9 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-image: linear-gradient(45deg, black, transparent);
+  background-image: linear-gradient(to right, black, transparent);
   background-color: lightgoldenrodyellow;
-  background-repeat: no-repeat;
+  /* background-repeat: no-repeat; */
 }
 
 .container {
@@ -169,7 +168,7 @@ select {
   padding: 15px;
   border-radius: 8px;
   margin: auto;
-  width: 25rem;
+  width: 22rem;
 }
 
 .form-create label {
