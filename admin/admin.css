@@ -1,6 +1,5 @@
 /* common css */
 
-
 img {
   width: 20px;
   float: right;
@@ -16,7 +15,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-image: linear-gradient(to right, black, transparent);
+  background-image: linear-gradient(to left, #2c3e50, transparent);
   background-color: lightgoldenrodyellow;
   /* background-repeat: no-repeat; */
 }
@@ -27,15 +26,21 @@ body {
   margin: 0 auto;
 }
 
-.view-div-all {}
+.view-div-all {
+  display: grid;
+  grid-template-columns: auto auto;
+}
 
 .view-div {
   background-color: aqua;
   padding: 12px;
   margin-top: 12px;
+  margin-right: 12px;
   border-radius: 5px;
   box-shadow: 0 0 3px;
-  padding-bottom: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .view-div textarea, input {
@@ -56,9 +61,14 @@ body {
   background-image: url('../loading.gif');
 }
 
+.del-bg {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
 .btn-delete {
   background-image: url('https://cdn2.iconfinder.com/data/icons/finance-2-25/48/68-512.png');
-  float: right;
+  /* float: right; */
   background-repeat: no-repeat;
   background-size: cover;
   width: 20px;
@@ -75,22 +85,22 @@ body {
 
 @keyframes shake {
   0% {
-    transform: scale(1.05) rotate(0);
+    transform: scale(1.1) rotate(0);
   }
   20% {
-    transform: scale(1.05) rotate(-8deg);
+    transform: scale(1.1) rotate(-8deg);
   }
   40% {
-    transform: scale(1.05) rotate(8deg);
+    transform: scale(1.1) rotate(8deg);
   }
   60% {
-    transform: scale(1.05) rotate(0);
+    transform: scale(1.1) rotate(0);
   }
   80% {
-    transform: scale(1.05) rotate(-8deg);
+    transform: scale(1.1) rotate(-8deg);
   }
   100% {
-    transform: scale(1.05) rotate(8deg);
+    transform: scale(1.1) rotate(8deg);
   }
 }
 
@@ -119,7 +129,6 @@ body {
   margin: auto;
   padding: 10px;
   margin-top: 30px;
-  
 }
 
 .create-div h3 {

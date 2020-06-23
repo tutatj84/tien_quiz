@@ -5,7 +5,23 @@ const {
   dialog,
 } = require('electron');
 const path = require('path');
+//db init
 let Datastore = require('nedb');
+const db = {};
+db.quiz = new Datastore('./database/quiz.db');
+db.acc = new Datastore('./database/account.db');
+db.result = new Datastore('./database/result.db');
+
+db.quiz.loadDatabase(err => {
+  if (err) { console.log(err) }
+});
+db.acc.loadDatabase(err => {
+  if (err) { console.log(err) }
+});
+db.result.loadDatabase(err => {
+  if (err) { console.log(err) }
+});
+
 
 let mainWindow = null;
 
@@ -15,10 +31,7 @@ function createWindow() {
       nodeIntegration: true,
     }
   });
-
-  mainWindow.loadFile('./admin/admin.html')
-
-
+  mainWindow.loadFile('./login/login.html')
 }
 
 app.whenReady()
@@ -39,15 +52,41 @@ app.on('window-all-closed', () => {
   }
 })
 
-//ipc
-//admin
-db = new Datastore('./database/quiz.db');
-db.loadDatabase(err => {
-  if (err) { console.log(err) }
-});
 
+
+//ipc
+//login
+let _user = null; //fake session :b
+ipcMain.on('login', (event, user, pass) => {
+  db.acc.find({}, (err, accs) => {
+    const accDb = accs.find(acc => user === acc.user && pass === acc.pass);
+    if (accDb) {
+      _user = user;
+      if (accDb.role == 0) {
+        mainWindow.loadFile('./admin/admin.html')
+      } else if (accDb.role == 1) {
+        mainWindow.loadFile('./student/preLoad.html')
+      }
+    } else {
+      event.reply('login-fail');
+    }
+  })
+
+})
+
+ipcMain.on('log-out', event => {
+  mainWindow.loadFile('./login/login.html')
+})
+
+ipcMain.on('load-preload', e =>{
+  mainWindow.loadFile('./student/preLoad.html')
+})
+
+//admin
 ipcMain.on('loadAllQues-mes', event => {
-  db.find({})
+  mainWindow.maximize();
+  //mainWindow.setMaxHeight();
+  db.quiz.find({})
     .sort({ time: 1 })
     .exec((err, docs) => {
       event.reply('loadAllQues-rep', docs);
@@ -55,7 +94,7 @@ ipcMain.on('loadAllQues-mes', event => {
 })
 
 ipcMain.on('edit-mes', (event, quizEdited) => {
-  db.update({ _id: quizEdited._id }, quizEdited, {}, (err, numAffected) => {
+  db.quiz.update({ _id: quizEdited._id }, quizEdited, {}, (err, numAffected) => {
     if (err) {
       console.log(err);
     }
@@ -81,17 +120,15 @@ ipcMain.on('add-window', (event, quizType, ansNum) => {
   child.center();
   child.show();
 
-  ipcMain.on('get-parent-info', event=>{
+  ipcMain.on('get-parent-info', event => {
     event.reply('get-parent-info-rep', quizType, ansNum);
   })
-  
+
 })
 
 
 ipcMain.on('submit-create', (event, quiz) => {
-  console.log('db');
-
-  db.insert(quiz, err => {
+  db.quiz.insert(quiz, err => {
     if (err) console.log(err);
   });
   dialog.showMessageBox({
@@ -101,6 +138,16 @@ ipcMain.on('submit-create', (event, quiz) => {
 })
 
 //student
+//nav
+ipcMain.on('load-take-quiz', event => {
+  mainWindow.loadFile('./student/takeQuiz.html')
+})
+
+ipcMain.on('load-view-rs', e => {
+  mainWindow.loadFile('./student/viewResult.html')
+})
+
+//takequiz
 class QuizNoAns {
   constructor(type, question, options, _id) {
     this.type = type;
@@ -112,7 +159,7 @@ class QuizNoAns {
 }
 
 ipcMain.on('takeQuiz-mes', (event) => {
-  db.find({}, (err, docs) => {
+  db.quiz.find({}, (err, docs) => {
     const quizzesNoAns = docs.map(quiz => {
       return new QuizNoAns(quiz.type, quiz.question, quiz.options, quiz._id)
     });
@@ -122,7 +169,7 @@ ipcMain.on('takeQuiz-mes', (event) => {
 const MARK_PER_QUIZ = 1;
 ipcMain.on('submit-test', async (event, studentQuizzes) => {
   let mark = 0;
-  db.find({}, (err, allQuiz) => {
+  db.quiz.find({}, (err, allQuiz) => {
     studentQuizzes.forEach(stQuiz => {
       const quizAdSameId = allQuiz.find(quizAd => quizAd._id === stQuiz._id);
       const correctQuantity = quizAdSameId.answerIds.length;
@@ -135,9 +182,13 @@ ipcMain.on('submit-test', async (event, studentQuizzes) => {
         }
       })
     })
-
-    console.log('Mark:' + mark);
-
+    console.log('Mark:' + mark); 
+    //Todo: ->db mark,user,time
+    // db.insert({
+    //   user : `${_user}`,
+    //   mark : mark,
+    //   time : Date.now(),
+    // })
     event.reply('submit-done', mark);
   })
 })

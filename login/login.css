@@ -1,0 +1,30 @@
+
+body {
+  margin: 0;
+}
+
+.form-login {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
+input {
+  max-width: 15rem;
+}
+
+#user{
+
+}
+
+#pass{
+
+}
+
+button {
+  max-width: 10rem;
+}
+#submit {
+  
+}

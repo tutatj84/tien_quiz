@@ -16,6 +16,19 @@ body {
   height: 100%;
 }
 
+/* preLoad*/
+.nav-pre-load {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.nav-pre-load button {
+  padding: 10px;
+}
+
+/* take quiz  */
+
 .test-area {
   display: flex;
   flex-direction: column;
@@ -124,10 +137,9 @@ table {
   transform: scale(1.20);
   box-shadow: 0 0 3px
 }
+
 .picked-quiz {
   background-color: green;
 }
 
-#btn-submit {
-
-}
+#btn-submit {}

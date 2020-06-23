@@ -12,8 +12,14 @@ class QuizEdited {
   }
 }
 
-//* load when start 
+//*nav
+const btnLogout = document.querySelector('#logout');
+btnLogout.addEventListener('click', e=>{
+  e.preventDefault();
+  ipcRenderer.send('log-out');
+})
 
+//* load when start 
 let _quizQuantity = 0;
 ipcRenderer.send('loadAllQues-mes');
 ipcRenderer.once('loadAllQues-rep', (event, quizzes) => {
@@ -24,15 +30,18 @@ ipcRenderer.once('loadAllQues-rep', (event, quizzes) => {
   quizzes.forEach((quiz, i) => {
     createdQuiz_div.innerHTML += `
     <div class="view-div" id="div-${i}">
-      <span class="div-index">#${i}</span>
-      <button class="btn-edit btn-linear" id="edit-${i}">Edit 🛠</button>
-      <div class="ques-div-all"><textarea readonly cols="40" rows="3">${quiz.question}</textarea>
-      </div>
-      <div class="opt-div-all" id="opts_${i}">
+      <div class = "quiz-main">
+        <span class="div-index">#Quiz_${i+1}</span>
+        <button class="btn-edit btn-linear" id="edit-${i}">Edit 🛠</button>
+        <div class="ques-div-all"><textarea readonly cols="40" rows="3">${quiz.question}</textarea>
+        </div>
+        <div class="opt-div-all" id="opts_${i}">
 
+        </div>
       </div>
-
-      <button class="btn-delete"></button>
+      <div class="del-bg">
+        <button class="btn-delete"></button>
+      </div>
     </div>
     `;
     quiz.options.forEach((opt, j) => {
