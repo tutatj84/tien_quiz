@@ -1,11 +1,10 @@
-{"answerIds":["1"],"options":["1","2","3","4"],"question":"Test order 2","time":1592799950262,"type":"1","_id":"15YY1h293HLam1BQ"}
 {"_id":"4nJv01wJLNyfHVJW","answerIds":["1"],"options":["True","False"],"question":"Are you gay?!!","type":"1"}
-{"time":2,"_id":"7YjD8GgxTd5VSGnM","answerIds":["2"],"options":["Huy","Hoang","Phan (shit?)"],"question":"What's mentor name?","type":"1"}
+{"_id":"7YjD8GgxTd5VSGnM","answerIds":["2"],"options":["Huy","Hoang","Phan (shit?)"],"question":"What's mentor name?","type":"1"}
 {"time":3,"answerIds":["3"],"options":["Fine","OKe","okla"],"question":"How are you?","type":"1","_id":"AT8ozSXObWcKoHZ4W"}
 {"time":9,"answerIds":["1"],"options":["he1","2","sdf3","sdfs4","5","6","7"],"question":"Test order....","type":"2","_id":"MLsiux8i4ygcFcan"}
-{"answerIds":["2"],"options":["1","2","3"],"question":"Test order 3...","time":1592800088398,"type":"1","_id":"Uhc9EPFpbikONsD6"}
-{"answerIds":["1"],"options":["q","w"],"question":"Test new window","time":1592819934220,"type":"1","_id":"YbxbB6lFO2N58xfA"}
 {"time":5,"answerIds":["1","2","3"],"options":["Con sau","Fat tu","Quy","Dzung","The engineer"],"question":"Who are those stupid??","type":"2","_id":"bMUjHqkAIc1IXbgu"}
 {"time":6,"answerIds":["1","4"],"options":["Friday","Saturday","Everyday","Birthday"],"question":"When's Happy Hour?","type":"2","_id":"esXdArQbGykM6XCD"}
 {"time":7,"answerIds":["2"],"options":["a","b","c"],"question":"Ques test 1","type":"1","_id":"hDdcBztdw1TkBAiY8"}
 {"time":8,"answerIds":["1"],"options":["a","b","c"],"question":"Ques test 2","type":"1","_id":"prv2YteuaVnnGxGI9"}
+{"answerIds":["1","2","3"],"options":["1","2","3"],"question":"Test delete","time":1593014895130,"type":"2","_id":"xDnxudjqOE26Wamm"}
+{"answerIds":["2"],"options":["1","2","3"],"question":"test add r","time":1593015144988,"type":"1","_id":"tVUYWMsnuGUkj58U"}

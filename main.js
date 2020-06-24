@@ -13,13 +13,19 @@ db.acc = new Datastore('./database/account.db');
 db.result = new Datastore('./database/result.db');
 
 db.quiz.loadDatabase(err => {
-  if (err) { console.log(err) }
+  if (err) {
+    console.log(err)
+  }
 });
 db.acc.loadDatabase(err => {
-  if (err) { console.log(err) }
+  if (err) {
+    console.log(err)
+  }
 });
 db.result.loadDatabase(err => {
-  if (err) { console.log(err) }
+  if (err) {
+    console.log(err)
+  }
 });
 
 
@@ -83,11 +89,11 @@ ipcMain.on('load-preload', e => {
 })
 
 //admin
-ipcMain.on('quiz-manager', e=>{
+ipcMain.on('quiz-manager', e => {
   mainWindow.loadFile('./admin/admin.html');
 })
 
-ipcMain.on('view-rs',e=>{
+ipcMain.on('view-rs', e => {
   mainWindow.loadFile('./admin/viewAllResult.html')
 })
 
@@ -95,14 +101,28 @@ ipcMain.on('loadAllQues-mes', event => {
   mainWindow.maximize();
   //mainWindow.setMaxHeight();
   db.quiz.find({})
-    .sort({ time: 1 })
+    .sort({
+      time: 1
+    })
     .exec((err, docs) => {
       event.reply('loadAllQues-rep', docs);
     })
 })
 
+ipcMain.on('del-quiz', (e, id) => {
+  db.quiz.remove({
+    _id: id
+  }, {}, (err, numRemoved) => {
+    console.log('num remove:' + numRemoved);
+
+  })
+  e.reply('del-done')
+})
+
 ipcMain.on('edit-mes', (event, quizEdited) => {
-  db.quiz.update({ _id: quizEdited._id }, quizEdited, {}, (err, numAffected) => {
+  db.quiz.update({
+    _id: quizEdited._id
+  }, quizEdited, {}, (err, numAffected) => {
     if (err) {
       console.log(err);
     }
@@ -142,6 +162,7 @@ ipcMain.on('submit-create', (event, quiz) => {
   dialog.showMessageBox({
     message: 'Add successfully!!!',
   });
+  mainWindow.reload();
   // event.reply('create-reply')
 })
 
@@ -207,19 +228,25 @@ ipcMain.on('submit-test', async (event, studentQuizzes) => {
 //ad
 ipcMain.on('get-mark-ad', e => {
   db.result
-  .find({})
-  .sort({time : -1})
-  .exec((err, rs) => {
-    e.reply('send-result', rs)
-  })
+    .find({})
+    .sort({
+      time: -1
+    })
+    .exec((err, rs) => {
+      e.reply('send-result', rs)
+    })
 })
 
 //st
 ipcMain.on('get-mark-student', e => {
   db.result
-  .find({ user: _user })
-  .sort({time : -1})
-  .exec((err, rs) => {
-    e.reply('send-result', rs)
-  })
+    .find({
+      user: _user
+    })
+    .sort({
+      time: -1
+    })
+    .exec((err, rs) => {
+      e.reply('send-result', rs)
+    })
 })

@@ -15,7 +15,7 @@ class QuizEdited {
 //*nav
 const btnViewRs = document.querySelector('#view-rs');
 const btnLogout = document.querySelector('#logout');
-btnLogout.addEventListener('click', e=>{
+btnLogout.addEventListener('click', e => {
   e.preventDefault();
   ipcRenderer.send('log-out');
 })
@@ -92,12 +92,22 @@ ipcRenderer.once('loadAllQues-rep', (event, quizzes) => {
 
       quizMainDiv.replaceChild(btnSave, e.target);
 
-      btnSave.addEventListener('click', () => {
+      btnSave.addEventListener('click', async () => {
         ques.readOnly = true;
         opts.forEach(opt => {
           opt.readOnly = true;
           opt.disabled = true;
         });
+
+        //loading...
+        let loading = document.createElement('img')
+        loading.src = '../img/loading.gif';
+        quizMainDiv.replaceChild(loading, btnSave);
+        const sleep = (milliseconds) => {
+          return new Promise(resolve => setTimeout(resolve, milliseconds))
+        }
+        await sleep(1000);
+
         //send data to server
         let editedAnsIds = [...div_i.querySelectorAll('input:checked')]
           .map((input, i) => input.value);
@@ -108,10 +118,6 @@ ipcRenderer.once('loadAllQues-rep', (event, quizzes) => {
 
         ipcRenderer.send('edit-mes', quizEdited);
 
-        //loading...
-        let loading = document.createElement('img')
-        loading.src = '../img/loading.gif';
-        quizMainDiv.replaceChild(loading, btnSave);
         //when edit done
         ipcRenderer.once('edit-rep', () => {
           setTimeout(() => {
@@ -123,6 +129,22 @@ ipcRenderer.once('loadAllQues-rep', (event, quizzes) => {
       });
     });
   });
+
+  //delete
+  quizzes.forEach((quiz, i) => {
+    const div_i = document.querySelector(`#div-${i}`);
+    const btnDel = div_i.querySelector('.btn-delete');
+
+    btnDel.addEventListener('click', e => {
+      e.preventDefault();
+      ipcRenderer.send('del-quiz', quiz._id)
+      ipcRenderer.on('del-done', (e) => {
+        console.log(location);
+
+        location.reload();
+      })
+    })
+  })
 });
 
 //* event dom 
@@ -136,13 +158,13 @@ document.querySelector('.btn-create').addEventListener('click', e => {
   if (!quizType.value || !ansNum.value) { //validate
     warning.innerHTML = 'Please select all field!!';
   } else {
-    ipcRenderer.send('add-window',quizType.value, ansNum.value) 
+    ipcRenderer.send('add-window', quizType.value, ansNum.value)
   }
 
 });
 
 //view Student's result
-btnViewRs.addEventListener('click', e=>{
+btnViewRs.addEventListener('click', e => {
   e.preventDefault()
   ipcRenderer.send('view-rs')
 
