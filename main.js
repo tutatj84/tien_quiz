@@ -78,11 +78,19 @@ ipcMain.on('log-out', event => {
   mainWindow.loadFile('./login/login.html')
 })
 
-ipcMain.on('load-preload', e =>{
+ipcMain.on('load-preload', e => {
   mainWindow.loadFile('./student/preLoad.html')
 })
 
 //admin
+ipcMain.on('quiz-manager', e=>{
+  mainWindow.loadFile('./admin/admin.html');
+})
+
+ipcMain.on('view-rs',e=>{
+  mainWindow.loadFile('./admin/viewAllResult.html')
+})
+
 ipcMain.on('loadAllQues-mes', event => {
   mainWindow.maximize();
   //mainWindow.setMaxHeight();
@@ -182,13 +190,36 @@ ipcMain.on('submit-test', async (event, studentQuizzes) => {
         }
       })
     })
-    console.log('Mark:' + mark); 
-    //Todo: ->db mark,user,time
-    // db.insert({
-    //   user : `${_user}`,
-    //   mark : mark,
-    //   time : Date.now(),
-    // })
-    event.reply('submit-done', mark);
+    mark = Math.round((mark + Number.EPSILON) * 100) / 100; //rounding 2 decimal place
+    console.log('Mark:' + mark);
+    //insert mark to db 
+    db.result.insert({
+      user: `${_user}`,
+      mark: mark,
+      time: new Date().toLocaleString(),
+    })
+    //load rs after done quiz
+    mainWindow.loadFile('./student/viewResult.html');
+  })
+})
+
+//view Result
+//ad
+ipcMain.on('get-mark-ad', e => {
+  db.result
+  .find({})
+  .sort({time : -1})
+  .exec((err, rs) => {
+    e.reply('send-result', rs)
+  })
+})
+
+//st
+ipcMain.on('get-mark-student', e => {
+  db.result
+  .find({ user: _user })
+  .sort({time : -1})
+  .exec((err, rs) => {
+    e.reply('send-result', rs)
   })
 })

@@ -1,6 +1,6 @@
 const { ipcRenderer } = require('electron')
 
-const btnPreLoad = document.querySelector('#preload')
+const btnQuizManage = document.querySelector('#quiz-manage');
 const btnLogout = document.querySelector('#logout')
 
 
@@ -13,30 +13,35 @@ const fillRsToTable = (rs) => {
 
   //stt
   const td1 = document.createElement('td')
-  td1.textContent = i + 1;
+  td1.textContent = i + 1
+  //name
+  const td2 =document.createElement('td');
+  td2.textContent = record.user
   //mark
-  const td2 = document.createElement('td')
-  td2.textContent = record.mark;
-  //date
   const td3 = document.createElement('td')
-  td3.textContent = record.time
+  td3.textContent = record.mark
+  //date
+  const td4 = document.createElement('td')
+  td4.textContent = record.time
 
   tr.appendChild(td1)
   tr.appendChild(td2)
   tr.appendChild(td3)
+  tr.appendChild(td4)
   tbody.appendChild(tr)
   })
 }
 
-ipcRenderer.send('get-mark-student');
+ipcRenderer.send('get-mark-ad');
 ipcRenderer.on('send-result', (e, rs) => {
   console.log(rs)
   fillRsToTable(rs)
   
 })
 
-btnPreLoad.addEventListener('click', e => {
-  ipcRenderer.send('load-preload');
+btnQuizManage.addEventListener('click', e=>{
+  e.preventDefault();
+  ipcRenderer.send('quiz-manager');
 })
 
 btnLogout.addEventListener('click', e => {

@@ -13,6 +13,7 @@ class QuizEdited {
 }
 
 //*nav
+const btnViewRs = document.querySelector('#view-rs');
 const btnLogout = document.querySelector('#logout');
 btnLogout.addEventListener('click', e=>{
   e.preventDefault();
@@ -71,8 +72,9 @@ ipcRenderer.once('loadAllQues-rep', (event, quizzes) => {
   //edit
   quizzes.forEach((quiz, i) => {
     const div_i = document.querySelector(`#div-${i}`);
+    const quizMainDiv = div_i.querySelector('.quiz-main');
     let btnEdit = document.querySelector(`#edit-${i}`);
-    document.querySelector(`#edit-${i}`).addEventListener('click', e => {
+    btnEdit.addEventListener('click', e => {
       e.preventDefault();
       let ques = div_i.querySelector('textarea');
       ques.readOnly = false;
@@ -87,7 +89,8 @@ ipcRenderer.once('loadAllQues-rep', (event, quizzes) => {
       let btnSave = document.createElement('button');
       btnSave.innerText = `Save ✍`;
       btnSave.classList.add('btn-edit', 'btn-linear');
-      div_i.replaceChild(btnSave, btnEdit);
+
+      quizMainDiv.replaceChild(btnSave, e.target);
 
       btnSave.addEventListener('click', () => {
         ques.readOnly = true;
@@ -107,14 +110,14 @@ ipcRenderer.once('loadAllQues-rep', (event, quizzes) => {
 
         //loading...
         let loading = document.createElement('img')
-        loading.src = '../loading.gif';
-        div_i.replaceChild(loading, btnSave);
+        loading.src = '../img/loading.gif';
+        quizMainDiv.replaceChild(loading, btnSave);
         //when edit done
         ipcRenderer.once('edit-rep', () => {
           setTimeout(() => {
-            div_i.replaceChild(btnEdit, div_i.querySelector('img'));
+            quizMainDiv.replaceChild(btnEdit, div_i.querySelector('img'));
           }, 1000);
-          loading.src = '../done.png';
+          loading.src = '../img/done.png';
           console.log('edit done!!');
         })
       });
@@ -138,3 +141,9 @@ document.querySelector('.btn-create').addEventListener('click', e => {
 
 });
 
+//view Student's result
+btnViewRs.addEventListener('click', e=>{
+  e.preventDefault()
+  ipcRenderer.send('view-rs')
+
+})
