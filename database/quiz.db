@@ -1,10 +1,9 @@
 {"_id":"4nJv01wJLNyfHVJW","answerIds":["1"],"options":["True","False"],"question":"Are you gay?!!","type":"1"}
-{"_id":"7YjD8GgxTd5VSGnM","answerIds":["2"],"options":["Huy","Hoang","Phan (shit?)"],"question":"What's mentor name?","type":"1"}
+{"_id":"7YjD8GgxTd5VSGnM","answerIds":["2"],"options":["Huy","Hoang","Phan (shit?)"],"question":"What's mentor first name?","type":"1"}
+{"answerIds":["4"],"options":["người","đó","là","bạn",":)"],"question":"Hãy nghiêng đầu sang phải 90 độ để thấy 1 thằng ngu.\nĐó là ai?\n","time":1593051074528,"type":"2","_id":"8pmb4X6pDOURJFKm"}
 {"time":3,"answerIds":["3"],"options":["Fine","OKe","okla"],"question":"How are you?","type":"1","_id":"AT8ozSXObWcKoHZ4W"}
-{"time":9,"answerIds":["1"],"options":["he1","2","sdf3","sdfs4","5","6","7"],"question":"Test order....","type":"2","_id":"MLsiux8i4ygcFcan"}
+{"answerIds":["2"],"options":["Chả hiểu đb gì","H2O","HBO","HOHO"],"question":"H2 + O2 -> ?","time":1593049602773,"type":"1","_id":"GYwqTlYtwMmEnzaJ"}
+{"answerIds":["2"],"options":["Tác giả","Người dân"],"question":"Ai đã đặt tên cho dòng sông?","time":1593078789494,"type":"1","_id":"NfQV4bP0AG9XTH57"}
+{"answerIds":["3"],"options":["?? :D ??","Không ?","Of course!","🤷‍♀️🤷‍♀️🤷‍♀️"],"question":"Miệng ngoan chúm chím mẹ có yêu không nào?","time":1593050166264,"type":"1","_id":"W35GzT0eNnuGGwrW"}
 {"time":5,"answerIds":["1","2","3"],"options":["Con sau","Fat tu","Quy","Dzung","The engineer"],"question":"Who are those stupid??","type":"2","_id":"bMUjHqkAIc1IXbgu"}
 {"time":6,"answerIds":["1","4"],"options":["Friday","Saturday","Everyday","Birthday"],"question":"When's Happy Hour?","type":"2","_id":"esXdArQbGykM6XCD"}
-{"time":7,"answerIds":["2"],"options":["a","b","c"],"question":"Ques test 1","type":"1","_id":"hDdcBztdw1TkBAiY8"}
-{"time":8,"answerIds":["1"],"options":["a","b","c"],"question":"Ques test 2","type":"1","_id":"prv2YteuaVnnGxGI9"}
-{"answerIds":["1","2","3"],"options":["1","2","3"],"question":"Test delete","time":1593014895130,"type":"2","_id":"xDnxudjqOE26Wamm"}
-{"answerIds":["2"],"options":["1","2","3"],"question":"test add r","time":1593015144988,"type":"1","_id":"tVUYWMsnuGUkj58U"}

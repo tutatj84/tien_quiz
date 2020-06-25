@@ -9,6 +9,10 @@ textarea {
   font-weight: bold;
 }
 
+button {
+  cursor: pointer;
+}
+
 .btn-linear {
   background-image: linear-gradient(to bottom, white, silver);
 }

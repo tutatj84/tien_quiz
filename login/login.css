@@ -1,30 +1,72 @@
-
 body {
   margin: 0;
+  background-image: url('../img/bg-login.jpg');
+  background-size: cover;
+  height: 100vh;
+}
+
+h1 {
+  margin: 0;
+  margin-bottom: 15px;
+  color: #e67e22;
 }
 
 .form-login {
   margin: auto;
   display: flex;
   flex-direction: column;
-  width: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(251, 230, 192, 0.9);;
+  padding: 18px;
+  border-radius: 10px;
+  border: 2px solid #27ae60;
+}
+
+label {
+  font-style: oblique;
+  font-weight: bold;
+  letter-spacing: 1px;
 }
 
 input {
   max-width: 15rem;
+  border: 2px solid silver;
+  border-radius: 20px;
+  padding: 10px 12px;
+  margin-bottom: 15px;
+  outline: none;
 }
 
-#user{
+#user {}
 
-}
-
-#pass{
-
-}
+#pass {}
 
 button {
   max-width: 10rem;
+  cursor: pointer;
 }
+
 #submit {
-  
+  margin-top: 15px;
+  border: 2px solid #e67e22;
+  border-radius: 25px;
+  padding: 5px 30px;
+  align-self: center;
+  font-size: 18px;
+}
+
+#submit:hover {
+  background-color: #e67e22;
+  color: white;
+}
+
+.warning {
+  margin-top: 15px;
+  align-self: center;
+  font-size: 18px;
+  color: red;
+  font-weight: bold;
 }

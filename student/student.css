@@ -1,15 +1,19 @@
 html {
   min-width: 30rem;
-  height: 100%;
+  /* height: 100%; */
+}
+
+* {
+  font-family: cursive;
 }
 
 body {
   margin: 0;
-  height: 100%;
+  height: 100vh;
   background-size: cover;
-  background-image: linear-gradient(45deg, black, transparent);
+  background-image: url('../img/bg-login.jpg');
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: cover;
 }
 
 .container {
@@ -17,14 +21,30 @@ body {
 }
 
 /* preLoad*/
+
 .nav-pre-load {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
 }
+
 .nav-pre-load button {
-  padding: 10px;
+  padding: 12px;
+  margin-right: 12px;
+  border: 2px solid green;
+  background-color: white;
+  font-weight: bold;
+  border-radius: 25px 0;
+  transform: scale(1.2);
+}
+
+button {
+  cursor: pointer;
+}
+
+.nav-pre-load button:hover {
+  background-color: #e67e22;
 }
 
 /* take quiz  */
@@ -35,6 +55,7 @@ body {
   height: 80%;
   width: 80%;
   min-width: 20rem;
+  max-width: 50rem;
   margin: auto;
   margin-top: 5%;
 }
@@ -45,10 +66,21 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 10px;
+  border-radius: 10px 10px 0 0;
+  background-image: linear-gradient(to bottom, #e67e22, rgba(247, 225, 184, 0.9));
 }
 
 h1 {
   margin: 10px 0;
+  color: darkgreen;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  50% {
+    color: lightgreen;
+  }
 }
 
 .time {
@@ -63,21 +95,26 @@ h1 {
 
 .test-content {
   height: 60%;
-  background-color: wheat;
+  background-color: rgba(247, 225, 184, 0.9);
   overflow: auto;
 }
 
 .test-nav {
   background-color: #e67e22;
-  height: 10%;
   padding: 10px;
 }
 
+.next {
+  background: none;
+  border: none;
+  outline: none;
+}
+
 .ques {
-  border: 1px solid green;
-  padding: 10px;
-  font-weight: bold;
-  color: blue;
+  border: 1px solid darkgreen;
+  border-radius: 15px;
+  padding: 20px 10px;
+  color: darkgreen;
   font-size: 20px;
 }
 
@@ -88,7 +125,7 @@ h1 {
 }
 
 .opt-all {
-  border: 1px solid;
+  /* border: 1px solid; */
   /* padding: 10px; */
 }
 
@@ -101,7 +138,7 @@ table {
 .opt-index {
   border: 1px solid;
   border-radius: 50%;
-  padding: 5px 10px;
+  padding: 5px 12px;
   background-color: green;
   color: white;
 }
@@ -131,6 +168,10 @@ table {
 
 .btn-quiz-nav {
   margin-right: 5px;
+  outline: none;
+  border: 2px solid #404040;
+  border-radius: 5px;
+  padding: 5px 10px;
 }
 
 .present-quiz {
@@ -142,4 +183,13 @@ table {
   background-color: green;
 }
 
-#btn-submit {}
+#btn-submit {
+  padding: 5px;
+  border-radius: 5px;
+  border: 2px solid green;
+}
+
+#btn-submit:hover {
+  background-color: green;
+  color: white;
+}

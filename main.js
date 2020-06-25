@@ -7,6 +7,7 @@ const {
 const path = require('path');
 //db init
 let Datastore = require('nedb');
+const { url } = require('inspector');
 const db = {};
 db.quiz = new Datastore('./database/quiz.db');
 db.acc = new Datastore('./database/account.db');
@@ -28,16 +29,18 @@ db.result.loadDatabase(err => {
   }
 });
 
-
 let mainWindow = null;
-
 function createWindow() {
   mainWindow = new BrowserWindow({
     webPreferences: {
       nodeIntegration: true,
-    }
+    },
+    title: 'Carrot Quiz :3',
+    icon: './img/icon.png',
   });
   mainWindow.loadFile('./login/login.html')
+  mainWindow.setResizable(false)
+  // mainWindow.setMenu(null)
 }
 
 app.whenReady()
@@ -57,8 +60,6 @@ app.on('window-all-closed', () => {
     app.quit();
   }
 })
-
-
 
 //ipc
 //login
@@ -110,13 +111,20 @@ ipcMain.on('loadAllQues-mes', event => {
 })
 
 ipcMain.on('del-quiz', (e, id) => {
-  db.quiz.remove({
-    _id: id
-  }, {}, (err, numRemoved) => {
-    console.log('num remove:' + numRemoved);
-
+  let cfOptions = {}
+  cfOptions.buttons = ['Sure!', 'No..']
+  cfOptions.message = 'Chắc kèo chưa bro??'
+  cfOptions.cancelId = 1
+  dialog.showMessageBox(mainWindow, cfOptions, (res, checked) => {
+    if (res === 0) {
+      db.quiz.remove({
+        _id: id
+      }, {}, (err, numRemoved) => {
+        console.log('num remove:' + numRemoved);
+      })
+      e.reply('del-done')
+    }
   })
-  e.reply('del-done')
 })
 
 ipcMain.on('edit-mes', (event, quizEdited) => {
@@ -129,6 +137,8 @@ ipcMain.on('edit-mes', (event, quizEdited) => {
     event.reply('edit-rep');
   });
 })
+
+_childWindow = null
 
 //admin - add quiz
 ipcMain.on('add-window', (event, quizType, ansNum) => {
@@ -147,13 +157,12 @@ ipcMain.on('add-window', (event, quizType, ansNum) => {
   child.setMenu(null)
   child.center();
   child.show();
+  _childWindow = child;
 
   ipcMain.on('get-parent-info', event => {
     event.reply('get-parent-info-rep', quizType, ansNum);
   })
-
 })
-
 
 ipcMain.on('submit-create', (event, quiz) => {
   db.quiz.insert(quiz, err => {
@@ -162,7 +171,8 @@ ipcMain.on('submit-create', (event, quiz) => {
   dialog.showMessageBox({
     message: 'Add successfully!!!',
   });
-  mainWindow.reload();
+  _childWindow.close()
+  mainWindow.reload()
   // event.reply('create-reply')
 })
 
@@ -170,6 +180,7 @@ ipcMain.on('submit-create', (event, quiz) => {
 //nav
 ipcMain.on('load-take-quiz', event => {
   mainWindow.loadFile('./student/takeQuiz.html')
+  mainWindow.maximize()
 })
 
 ipcMain.on('load-view-rs', e => {
@@ -196,7 +207,7 @@ ipcMain.on('takeQuiz-mes', (event) => {
   });
 });
 const MARK_PER_QUIZ = 1;
-ipcMain.on('submit-test', async (event, studentQuizzes) => {
+const handleSubmit = studentQuizzes => {
   let mark = 0;
   db.quiz.find({}, (err, allQuiz) => {
     studentQuizzes.forEach(stQuiz => {
@@ -206,7 +217,7 @@ ipcMain.on('submit-test', async (event, studentQuizzes) => {
 
       stQuiz.choiceIds.forEach(choice => {
         const correct_ans = quizAdSameId.answerIds.find(ans => ans === choice);
-        if (correct_ans) {
+        if (correct_ans && stQuiz.choiceIds.length <= quizAdSameId.answerIds.length) {
           mark += markPerAns;
         }
       })
@@ -222,6 +233,21 @@ ipcMain.on('submit-test', async (event, studentQuizzes) => {
     //load rs after done quiz
     mainWindow.loadFile('./student/viewResult.html');
   })
+}
+ipcMain.on('submit-test', async (event, studentQuizzes, timeleft) => {
+  if (timeleft > 0) {
+    let cfOptions = {}
+    cfOptions.buttons = ['Sure!', 'No..']
+    cfOptions.message = 'Chắc kèo chưa bro??'
+    cfOptions.cancelId = 1
+    dialog.showMessageBox(mainWindow, cfOptions, (res, checked) => {
+      if (res === 0) {
+        handleSubmit(studentQuizzes)
+      }
+    })
+  } else {
+    handleSubmit(studentQuizzes)
+  }
 })
 
 //view Result

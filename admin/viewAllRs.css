@@ -1,0 +1,44 @@
+body {
+  background-image: url(../img/bg-login.jpg);
+  background-size: cover;
+}
+
+button {
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 5px;
+  border: 2px solid green;
+}
+
+button:nth-child(2) {
+  background-color: #e67e22;
+}
+
+button:hover {
+  background-color: #e67e22;
+}
+
+.result {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+table {
+  background-color: rgba(113, 179, 115, 0.9);
+  font-size: 18px;
+}
+
+thead {
+  background-color: #dea12f;
+}
+
+tbody tr:nth-child(even) {
+  background-color: wheat;
+}
+
+th, td {
+  padding: 5px;
+  text-align: center;
+}

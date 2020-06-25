@@ -18,6 +18,8 @@ formLogin.addEventListener('submit', e => {
   e.preventDefault();
   ipcRenderer.send('login', user.value.trim(), pass.value.trim());
   ipcRenderer.on('login-fail', e => {
-    warning.innerHTML = 'Login failed';
+    warning.innerHTML = 'Login failed!!';
+    console.log(warning);
+    
   })
 })

@@ -2,7 +2,7 @@ const {
   ipcRenderer,
 } = require('electron');
 
-let timeLeft = 1 * 60;
+let timeLeft = 10 * 60;
 
 const quizNav = document.querySelector('.quiz-nav');
 const table = document.querySelector('table');
@@ -96,7 +96,7 @@ const initSubmitHandler = (quizzes) => {
     e.preventDefault();
     clearInterval(_myTimer);
 
-    ipcRenderer.send('submit-test', quizzes);
+    ipcRenderer.send('submit-test', quizzes, timeLeft);
     ipcRenderer.on('submit-done', (_, mark) => {
       console.log('Mark is:' + Number(mark));
     })

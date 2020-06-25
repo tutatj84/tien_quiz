@@ -1,6 +1,8 @@
 const {
   ipcRenderer,
+
 } = require('electron');
+const { dialog, } = require('electron').remote;
 
 class QuizEdited {
   constructor(type, question, options, answerIds, _id) {
@@ -32,7 +34,7 @@ ipcRenderer.once('loadAllQues-rep', (event, quizzes) => {
     createdQuiz_div.innerHTML += `
     <div class="view-div" id="div-${i}">
       <div class = "quiz-main">
-        <span class="div-index">#Quiz_${i+1}</span>
+        <span class="div-index">#Quiz_${i + 1}</span>
         <button class="btn-edit btn-linear" id="edit-${i}">Edit 🛠</button>
         <div class="ques-div-all"><textarea readonly cols="40" rows="3">${quiz.question}</textarea>
         </div>
@@ -136,11 +138,11 @@ ipcRenderer.once('loadAllQues-rep', (event, quizzes) => {
     const btnDel = div_i.querySelector('.btn-delete');
 
     btnDel.addEventListener('click', e => {
-      e.preventDefault();
+      e.preventDefault()
+
       ipcRenderer.send('del-quiz', quiz._id)
       ipcRenderer.on('del-done', (e) => {
         console.log(location);
-
         location.reload();
       })
     })
