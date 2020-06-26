@@ -39,6 +39,17 @@ body {
   transform: scale(1.2);
 }
 
+#logout {
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 5px;
+  border: 2px solid green;
+}
+
+#logout:hover {
+  background-color: #e67e22;
+}
+
 button {
   cursor: pointer;
 }

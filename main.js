@@ -3,6 +3,7 @@ const {
   BrowserWindow,
   ipcMain,
   dialog,
+  globalShortcut,
 } = require('electron');
 const path = require('path');
 //db init
@@ -40,7 +41,9 @@ function createWindow() {
   });
   mainWindow.loadFile('./login/login.html')
   mainWindow.setResizable(false)
-  // mainWindow.setMenu(null)
+  // mainWindow.setSimpleFullScreen(true)
+  mainWindow.setMenu(null)
+  mainWindow.setAlwaysOnTop(true, "floating")
 }
 
 app.whenReady()
@@ -87,6 +90,7 @@ ipcMain.on('log-out', event => {
 
 ipcMain.on('load-preload', e => {
   mainWindow.loadFile('./student/preLoad.html')
+  mainWindow.setSize(800, 600)
 })
 
 //admin
@@ -180,7 +184,10 @@ ipcMain.on('submit-create', (event, quiz) => {
 //nav
 ipcMain.on('load-take-quiz', event => {
   mainWindow.loadFile('./student/takeQuiz.html')
+  mainWindow.setResizable(true)
+  mainWindow.setFullScreen(true)
   mainWindow.maximize()
+  mainWindow.ontop
 })
 
 ipcMain.on('load-view-rs', e => {
@@ -232,6 +239,8 @@ const handleSubmit = studentQuizzes => {
     })
     //load rs after done quiz
     mainWindow.loadFile('./student/viewResult.html');
+    mainWindow.setResizable(true)
+    mainWindow.setSize(800,600)
   })
 }
 ipcMain.on('submit-test', async (event, studentQuizzes, timeleft) => {
