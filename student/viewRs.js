@@ -16,7 +16,7 @@ const fillRsToTable = (rs) => {
   td1.textContent = i + 1;
   //mark
   const td2 = document.createElement('td')
-  td2.textContent = record.mark;
+  td2.textContent = record.mark + '/' + record.quizQuantity;
   //date
   const td3 = document.createElement('td')
   td3.textContent = record.time

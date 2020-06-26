@@ -213,7 +213,9 @@ ipcMain.on('takeQuiz-mes', (event) => {
     event.reply('takeQuiz-rep', quizzesNoAns);
   });
 });
+
 const MARK_PER_QUIZ = 1;
+
 const handleSubmit = studentQuizzes => {
   let mark = 0;
   db.quiz.find({}, (err, allQuiz) => {
@@ -234,6 +236,7 @@ const handleSubmit = studentQuizzes => {
     //insert mark to db 
     db.result.insert({
       user: `${_user}`,
+      quizQuantity : allQuiz.length,
       mark: mark,
       time: new Date().toLocaleString(),
     })
