@@ -1,13 +1,10 @@
 body {
   background-image: url(../img/bg-login.jpg);
   background-size: cover;
+  overflow: hidden;
 }
 
 button {
-  cursor: pointer;
-}
-
-.nav button {
   cursor: pointer;
   padding: 5px;
   border-radius: 5px;
@@ -22,15 +19,14 @@ button:hover {
   height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
+  overflow: auto;
 }
+
 table {
   background-color: rgba(113, 179, 115, 0.9);
   font-size: 18px;
-}
-
-thead {
-  background-color: #dea12f;
+  margin-top: 10px;
 }
 
 tbody tr:nth-child(even) {
@@ -40,4 +36,11 @@ tbody tr:nth-child(even) {
 th, td {
   padding: 5px;
   text-align: center;
+  min-width: 150px;
+}
+
+th {
+  position: sticky;
+  top: 0;
+  background-color: #dea12f;
 }

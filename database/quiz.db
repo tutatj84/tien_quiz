@@ -3,7 +3,7 @@
 {"answerIds":["4"],"options":["người","đó","là","bạn",":)"],"question":"Hãy nghiêng đầu sang phải 90 độ để thấy 1 thằng ngu.\nĐó là ai?\n","time":1593051074528,"type":"2","_id":"8pmb4X6pDOURJFKm"}
 {"time":3,"answerIds":["3"],"options":["Fine","OKe","okla"],"question":"How are you?","type":"1","_id":"AT8ozSXObWcKoHZ4W"}
 {"answerIds":["2"],"options":["Chả hiểu đb gì","H2O","HBO","HOHO"],"question":"H2 + O2 -> ?","time":1593049602773,"type":"1","_id":"GYwqTlYtwMmEnzaJ"}
-{"answerIds":["2"],"options":["Tác giả","Người dân"],"question":"Ai đã đặt tên cho dòng sông?","time":1593078789494,"type":"1","_id":"NfQV4bP0AG9XTH57"}
+{"_id":"NfQV4bP0AG9XTH57","answerIds":["2"],"options":["Tác giả","Người dân"],"question":"Ai đã đặt tên cho dòng sông?","type":"1"}
 {"answerIds":["3"],"options":["?? :D ??","Không ?","Of course!","🤷‍♀️🤷‍♀️🤷‍♀️"],"question":"Miệng ngoan chúm chím mẹ có yêu không nào?","time":1593050166264,"type":"1","_id":"W35GzT0eNnuGGwrW"}
 {"time":5,"answerIds":["1","2","3"],"options":["Con sau","Fat tu","Quy","Dzung","The engineer"],"question":"Who are those stupid??","type":"2","_id":"bMUjHqkAIc1IXbgu"}
-{"time":6,"answerIds":["1","4"],"options":["Friday","Saturday","Everyday","Birthday"],"question":"When's Happy Hour?","type":"2","_id":"esXdArQbGykM6XCD"}
+{"_id":"esXdArQbGykM6XCD","answerIds":["1","2","4"],"options":["Friday","Saturday","Everyday","Birthday"],"question":"When's Happy Hour?","type":"2"}

@@ -42,8 +42,9 @@ function createWindow() {
   mainWindow.loadFile('./login/login.html')
   mainWindow.setResizable(false)
   // mainWindow.setSimpleFullScreen(true)
-  mainWindow.setMenu(null)
-  mainWindow.setAlwaysOnTop(true, "floating")
+  // mainWindow.setMenu(null)
+  mainWindow.openDevTools()
+  // mainWindow.setAlwaysOnTop(true, "floating")
 }
 
 app.whenReady()
@@ -75,7 +76,7 @@ ipcMain.on('login', (event, user, pass) => {
       if (accDb.role == 0) {
         mainWindow.loadFile('./admin/admin.html')
       } else if (accDb.role == 1) {
-        mainWindow.loadFile('./student/preLoad.html')
+        mainWindow.loadFile('./student/pre-load.html')
       }
     } else {
       event.reply('login-fail');
@@ -89,7 +90,7 @@ ipcMain.on('log-out', event => {
 })
 
 ipcMain.on('load-preload', e => {
-  mainWindow.loadFile('./student/preLoad.html')
+  mainWindow.loadFile('./student/pre-load.html')
   mainWindow.setSize(800, 600)
 })
 
@@ -99,7 +100,7 @@ ipcMain.on('quiz-manager', e => {
 })
 
 ipcMain.on('view-rs', e => {
-  mainWindow.loadFile('./admin/viewAllResult.html')
+  mainWindow.loadFile('./admin/view-all-result.html')
 })
 
 ipcMain.on('loadAllQues-mes', event => {
@@ -183,7 +184,7 @@ ipcMain.on('submit-create', (event, quiz) => {
 //student
 //nav
 ipcMain.on('load-take-quiz', event => {
-  mainWindow.loadFile('./student/takeQuiz.html')
+  mainWindow.loadFile('./student/take-quiz.html')
   mainWindow.setResizable(true)
   mainWindow.setFullScreen(true)
   mainWindow.maximize()
@@ -191,10 +192,10 @@ ipcMain.on('load-take-quiz', event => {
 })
 
 ipcMain.on('load-view-rs', e => {
-  mainWindow.loadFile('./student/viewResult.html')
+  mainWindow.loadFile('./student/view-result.html')
 })
 
-//takequiz
+//take quiz
 class QuizNoAns {
   constructor(type, question, options, _id) {
     this.type = type;
@@ -241,7 +242,7 @@ const handleSubmit = studentQuizzes => {
       time: new Date().toLocaleString(),
     })
     //load rs after done quiz
-    mainWindow.loadFile('./student/viewResult.html');
+    mainWindow.loadFile('./student/view-result.html');
     mainWindow.setResizable(true)
     mainWindow.setSize(800,600)
   })
